@@ -1,0 +1,88 @@
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<div id="app">
+
+  <h1>Choose input language</h1>
+
+  <select v-model="language">
+    <option value="french">French</option>
+    <option value="turkish">Turkish</option>
+  </select>
+
+  <h1>Type input text here</h1>
+
+  <input :value="input_text"
+	 @input="onInput"
+	 placeholder="Type here">
+
+  <h1>Word by word translation into English</h1>
+
+  <p>{{ translation }}</p>
+
+</div>
+
+<script type="module">
+  const { createApp } = Vue;
+
+  createApp({
+      data() {
+	  return {
+	      input_text: '',
+	      dictionary : {
+		  french: {
+		      "bœuf" : "beef",
+		      "cavalier" : "jumper",
+		      "crayon" : "pencil",
+		      "fenêtre" : "window",
+		      "lampe" : "lamp",
+		      "papier" : "paper",
+		      "poisson" : "fish",
+		      "règle" : "ruler",
+		      "rideau" : "curtain",
+		      "stylo" : "pen",
+		      "suis" : "follow; am",
+		      "tableau" : "table",
+		      "tasse" : "cup",
+		      "tout" : "all",
+		      "je" : "I",
+		      "brun" : "brown",
+		  },
+		  turkish : {
+		      "bu" : "this",
+		      "kahvaltida" : "breakfast",
+		      "bal" : "honey",
+		      "yerim" : "I eat"
+		  }
+	      },
+	      language : "french",
+	  };
+      },
+      computed: {
+	  translation() {
+	      let s = "";
+	      let words = this.input_text.split(" ");
+	      let dict = this.dictionary[this.language];
+	      for (let w of words) {
+		  if (w != '') {
+		      let lw = w.toLowerCase();
+		      let t = dict?.[lw];
+		      if (t == undefined) {
+			  t = "?";
+		      }
+		      s += ` ${w} [${t}]`;
+		  }
+	      }
+	      return s;
+	  }
+      },
+      methods: {
+	  onInput(e) {
+	      this.input_text = e.target.value;
+	  },
+	  onSelection(e) {
+	      this.language = e.target.value;
+	  }
+      }
+  }).mount('#app')
+
+</script>
