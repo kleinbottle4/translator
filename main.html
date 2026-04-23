@@ -1,28 +1,70 @@
+<!-- -*- origami-fold-style: triple-braces; -*- -->
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
+<style>
+  div {
+      background: lightyellow;
+      font-style: italic;
+      font: serif;
+  }
+  table, td {
+      border: 3px dashed black
+  }
+  </style>
+
 <div id="app">
+
+  <table>
+    <tr>
+      <td>
 
   <h1>Choose input language</h1>
 
   <select v-model="language">
     <option value="french">French</option>
     <option value="turkish">Turkish</option>
+    <option value="german">German</option>
   </select>
+  </td>
 
+      <td>
   <h1>Type input text here</h1>
 
-  <input :value="input_text"
+  <textarea :value="input_text"
 	 @input="onInput"
 	 placeholder="Type here">
+  </textarea>
+  </td>
 
+    </tr>
+    <tr>
+      <td style="background: lightgreen">
   <h1>Word by word translation into English</h1>
 
   <p>{{ translation }}</p>
+  </td>
 
-</div>
+      <td>
+  <h1>Add a word to the current dictionary</h1>
+
+  <p>
+    The word in {{ language }}:
+    <input :value="new_word" @input="newWordOnInput"> </input>
+  </p>
+
+  <p>
+    The word in English:
+    <input :value="new_word_translation" @input="newWordTranslationOnInput">
+  </input>
+  </p>
+
+  <button @click="newWordButtonOnInput">Add the word.</button>
+      </td>
+    </tr>
+    </table>
 
 <script type="module">
-  const { createApp } = Vue;
+const { createApp } = Vue;
 
   createApp({
       data() {
@@ -30,6 +72,7 @@
 	      input_text: '',
 	      dictionary : {
 		  french: {
+		      // {{{
 		      "bœuf" : "beef",
 		      "cavalier" : "jumper",
 		      "crayon" : "pencil",
@@ -46,43 +89,380 @@
 		      "tout" : "all",
 		      "je" : "I",
 		      "brun" : "brown",
+		      "je" : "I",
+		      "tu" : "you (informal)",
+		      "il" : "he",
+		      "elle" : "she",
+		      "on" : "one/we/they (informal)",
+		      "nous" : "we",
+		      "vous" : "you (formal/plural)",
+		      "ils" : "they (masculine)",
+		      "elles" : "they (feminine)",
+		      "ce" : "this/it",
+		      "ça" : "this/it (informal)",
+		      "là" : "there",
+		      "ici" : "here",
+		      "maison" : "house",
+		      "école" : "school",
+		      "livre" : "book",
+		      "nourriture" : "food",
+		      "eau" : "water",
+		      "thé" : "tea",
+		      "café" : "coffee",
+		      "fruit" : "fruit",
+		      "légume" : "vegetable",
+		      "viande" : "meat",
+		      "poisson" : "fish",
+		      "poulet" : "chicken",
+		      "lait" : "milk",
+		      "pain" : "bread",
+		      "route" : "road",
+		      "entre" : "between",
+		      "au-dessus" : "above",
+		      "en dessous" : "below",
+		      "pour" : "for",
+		      "avec" : "with",
+		      "et" : "and",
+		      "mais" : "but",
+		      "parce que" : "because",
+		      "ou" : "or",
+		      "comme" : "like",
+		      "être" : "to be",
+		      "avoir" : "to have",
+		      "aller" : "to go",
+		      "venir" : "to come",
+		      "faire" : "to do/make",
+		      "dire" : "to say",
+		      "savoir" : "to know",
+		      "vouloir" : "to want",
+		      "prendre" : "to take",
+		      "donner" : "to give",
+		      "voir" : "to see",
+		      "entendre" : "to hear",
+		      "comprendre" : "to understand",
+		      "raconter" : "to tell",
+		      "demander" : "to ask",
+		      "écrire" : "to write",
+		      "lire" : "to read",
+		      "travailler" : "to work",
+		      "jeu" : "game",
+		      "film" : "movie",
+		      "musique" : "music",
+		      "image" : "picture",
+		      "heure" : "hour",
+		      "jour" : "day",
+		      "année" : "year",
+		      "mois" : "month",
+		      "semaine" : "week",
+		      "á" : "to",
+		      "habite" : "live",
+		      // }}}
 		  },
 		  turkish : {
+		      // {{{
 		      "bu" : "this",
 		      "kahvaltida" : "breakfast",
 		      "bal" : "honey",
-		      "yerim" : "I eat"
+		      "yerim" : "I eat",
+		      "ben" : "I",
+		      "sen" : "you",
+		      "o" : "he/she/it",
+		      "biz" : "we",
+		      "siz" : "you (plural/formal)",
+		      "onlar" : "they",
+		      "bu" : "this",
+		      "şu" : "that (near you)",
+		      "o" : "that (far from both)",
+		      "burada" : "here",
+		      "şurada" : "there (near you)",
+		      "orada" : "there (far from both)",
+		      "ev" : "home",
+		      "okul" : "school",
+		      "kitap" : "book",
+		      "yemek" : "food",
+		      "su" : "water",
+		      "çay" : "tea",
+		      "kahve" : "coffee",
+		      "meyve" : "fruit",
+		      "sebze" : "vegetable",
+		      "et" : "meat",
+		      "balık" : "fish",
+		      "tavuk" : "chicken",
+		      "süt" : "milk",
+		      "ekmek" : "bread",
+		      "yol" : "road",
+		      "ara" : "between",
+		      "üst" : "above",
+		      "alt" : "below",
+		      "için" : "for",
+		      "ile" : "with",
+		      "ve" : "and",
+		      "ama" : "but",
+		      "çünkü" : "because",
+		      "veya" : "or",
+		      "gibi" : "like",
+		      "olmak" : "to be",
+		      "var" : "there is/are",
+		      "yok" : "there is/are not",
+		      "gidmek" : "to go",
+		      "gelmek" : "to come",
+		      "yapmak" : "to do/make",
+		      "demek" : "to say",
+		      "bilmek" : "to know",
+		      "istemek" : "to want",
+		      "almak" : "to take",
+		      "vermek" : "to give",
+		      "görmek" : "to see",
+		      "duymak" : "to hear",
+		      "anlamak" : "to understand",
+		      "söylemek" : "to tell",
+		      "sormak" : "to ask",
+		      "yazmak" : "to write",
+		      "okumak" : "to read",
+		      "çalışmak" : "to work",
+		      "oyun" : "game",
+		      "film" : "movie",
+		      "müzik" : "music",
+		      "resim" : "picture",
+		      "saat" : "hour/clock",
+		      "gün" : "day",
+		      "yıl" : "year",
+		      "ay" : "month",
+		      "hafta" : "week"
+		      // }}}
+		  },
+		  german : {
+		      // {{{
+		      "ich": "I",
+		      "du": "you",
+		      "er": "he",
+		      "sie": "she",
+		      "es": "it",
+		      "wir": "we",
+		      "ihr": "you (plural)",
+		      "sie": "they",
+		      "haus": "house",
+		      "auto": "car",
+		      "tag": "day",
+		      "nacht": "night",
+		      "jahr": "year",
+		      "monat": "month",
+		      "woche": "week",
+		      "stunde": "hour",
+		      "minute": "minute",
+		      "sekunde": "second",
+		      "freund": "friend",
+		      "familie": "family",
+		      "kind": "child",
+		      "mutter": "mother",
+		      "vater": "father",
+		      "bruder": "brother",
+		      "schwester": "sister",
+		      "lehrer": "teacher",
+		      "schüler": "student",
+		      "buch": "book",
+		      "stift": "pen",
+		      "papier": "paper",
+		      "tisch": "table",
+		      "stuhl": "chair",
+		      "bett": "bed",
+		      "fenster": "window",
+		      "tür": "door",
+		      "garten": "garden",
+		      "baum": "tree",
+		      "blume": "flower",
+		      "wasser": "water",
+		      "essen": "food",
+		      "trinken": "drink",
+		      "kuchen": "cake",
+		      "brot": "bread",
+		      "fleisch": "meat",
+		      "gemüse": "vegetables",
+		      "obst": "fruit",
+		      "milch": "milk",
+		      "kaffee": "coffee",
+		      "tee": "tea",
+		      "bier": "beer",
+		      "wein": "wine",
+		      "strasse": "street",
+		      "stadt": "city",
+		      "dorf": "village",
+		      "land": "country",
+		      "fluss": "river",
+		      "see": "lake",
+		      "meer": "sea",
+		      "berg": "mountain",
+		      "insel": "island",
+		      "auto": "car",
+		      "fahrrad": "bicycle",
+		      "zug": "train",
+		      "flugzeug": "airplane",
+		      "schiff": "ship",
+		      "bus": "bus",
+		      "uhr": "clock",
+		      "telefon": "phone",
+		      "computer": "computer",
+		      "fernseher": "television",
+		      "radio": "radio",
+		      "kamera": "camera",
+		      "bild": "picture",
+		      "musik": "music",
+		      "film": "movie",
+		      "theater": "theater",
+		      "museum": "museum",
+		      "schule": "school",
+		      "universität": "university",
+		      "krankenhaus": "hospital",
+		      "apotheke": "pharmacy",
+		      "bank": "bank",
+		      "post": "post office",
+		      "supermarkt": "supermarket",
+		      "café": "café",
+		      "restaurant": "restaurant",
+		      "hotel": "hotel",
+		      "badezimmer": "bathroom",
+		      "küche": "kitchen",
+		      "wohnzimmer": "living room",
+		      "schlafzimmer": "bedroom",
+		      "arbeitszimmer": "study",
+		      "garten": "garden",
+		      "terrasse": "terrace",
+		      "balkon": "balcony",
+		      "garage": "garage",
+		      "keller": "basement",
+		      "dach": "roof",
+		      "treppe": "staircase",
+		      "fenster": "window",
+		      "tür": "door",
+		      "schrank": "wardrobe",
+		      "bett": "bed",
+		      "sofa": "sofa",
+		      "stuhl": "chair",
+		      "tisch": "table",
+		      "lampe": "lamp",
+		      "teppich": "carpet",
+		      "bild": "picture",
+		      "uhr": "clock",
+		      "spiegel": "mirror",
+		      "handtuch": "towel",
+		      "seife": "soap",
+		      "zahnbürste": "toothbrush",
+		      "kamm": "comb",
+		      "spiegel": "mirror",
+		      "waschbecken": "sink",
+		      "dusche": "shower",
+		      "badewanne": "bathtub",
+		      "toilette": "toilet",
+		      "herd": "stove",
+		      "kühlschrank": "refrigerator",
+		      "spülmaschine": "dishwasher",
+		      "waschmaschine": "washing machine",
+		      "trockner": "dryer",
+		      "mikrowelle": "microwave",
+		      "ofen": "oven",
+		      "geschirr": "dishes",
+		      "besteck": "cutlery",
+		      "tasse": "cup",
+		      "teller": "plate",
+		      "glas": "glass",
+		      "flasche": "bottle",
+		      "becher": "mug",
+		      "löffel": "spoon",
+		      "gabel": "fork",
+		      "messer": "knife",
+		      "schüssel": "bowl",
+		      "topf": "pot",
+		      "pfanne": "pan",
+		      "decke": "blanket",
+		      "kissen": "pillow",
+		      "decke": "cover",
+		      "vorhang": "curtain",
+		      "teppich": "rug",
+		      "lampe": "lamp",
+		      "steckdose": "outlet",
+		      "schalter": "switch",
+		      "stecker": "plug",
+		      "kabel": "cable",
+		      "fernbedienung": "remote control",
+		      "batterie": "battery",
+		      "akku": "battery (rechargeable)",
+		      "lader": "charger",
+		      "kamera": "camera",
+		      "handy": "mobile phone",
+		      "laptop": "laptop",
+		      "tablet": "tablet",
+		      "drucker": "printer",
+		      "scanner": "scanner",
+		      "kopierer": "copier",
+		      "fax": "fax",
+		      "monitor": "monitor",
+		      "tastatur": "keyboard",
+		      "maus": "mouse",
+		      "headset": "headset",
+		      "lautsprecher": "speaker",
+		      "mikrofon": "microphone",
+		      "webcam": "webcam",
+		      "router": "router",
+		      "modem": "modem",
+		      "kabel": "cable",
+		      "steckdose": "outlet",
+		      "schalter": "switch",
+		      "stecker": "plug",
+		      "batterie": "battery",
+		      "akku": "battery (rechargeable)",
+		      "lader": "charger",
+		      "nagel" : "nail",
+		      "auf" : "on",
+		      "den" : "the",
+		      "kopf" : "head",
+		      "trifft" : "meets",
+		      "man" : "one",
+		      // }}}
 		  }
 	      },
 	      language : "french",
-	  };
-      },
-      computed: {
-	  translation() {
-	      let s = "";
-	      let words = this.input_text.split(" ");
-	      let dict = this.dictionary[this.language];
-	      for (let w of words) {
-		  if (w != '') {
-		      let lw = w.toLowerCase();
-		      let t = dict?.[lw];
-		      if (t == undefined) {
-			  t = "?";
-		      }
-		      s += ` ${w} [${t}]`;
-		  }
-	      }
-	      return s;
-	  }
-      },
-      methods: {
-	  onInput(e) {
-	      this.input_text = e.target.value;
-	  },
-	  onSelection(e) {
-	      this.language = e.target.value;
-	  }
-      }
-  }).mount('#app')
+	      new_word : "",
+	      new_word_translation : "",
+	};
+    },
+    computed: {
+	translation() {
+	    let s = "";
+	    let words = this.input_text.split(" ");
+	    let dict = this.dictionary[this.language];
+	    for (let w of words) {
+		if (w != '') {
+		    let lw = w.toLowerCase();
+		    let t = dict?.[lw];
+		    if (t == undefined) {
+			t = "?";
+		    }
+		    s += ` ${w} [${t}]`;
+		}
+	    }
+	    return s;
+	}
+    },
+    methods: {
+	onInput(e) {
+	    this.input_text = e.target.value;
+	},
+	onSelection(e) {
+	    this.language = e.target.value;
+	},
+	newWordOnInput(e) {
+	    this.new_word = e.target.value;
+	},
+	newWordTranslationOnInput(e) {
+	    this.new_word_translation = e.target.value;
+	},
+	newWordButtonOnInput(e) {
+	    console.log(this.new_word);
+	    this.dictionary[this.language][this.new_word] = this.new_word_translation;
+	},
+    }
+}).mount('#app')
 
 </script>
+
+</div>
